@@ -1,0 +1,13 @@
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\obj\Debug\FIFA.Tester.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\FIFA.Test.exe.config
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\FIFA.Test.exe
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\FIFA.Test.pdb
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\FIFA.Framework.dll
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\Microsoft.VisualStudio.Coverage.Analysis.dll
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\Microsoft.VisualStudio.Coverage.Monitor.dll
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\Microsoft.VisualStudio.Coverage.Interop.dll
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\msdia120typelib_clr0200.dll
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\bin\Debug\FIFA.Framework.pdb
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\obj\Debug\FIFA.Test.exe
+C:\Users\Administrator\Desktop\coding_space\FIFA\FIFA.Tester\obj\Debug\FIFA.Test.pdb

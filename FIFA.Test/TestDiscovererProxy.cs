@@ -37,11 +37,13 @@ namespace FIFA.Test
                 }
 
             }
+           
             return test_case_list;
         }
 
         public List<string> GetRelevantAssemblies(IEnumerable<TestCase> test_case_collection)
         {
+
             var ass_path_list = test_case_collection.Select(test => test.SourceFile).Distinct();
             List<string> result = new List<string>();
             foreach (var ass_path in ass_path_list)
@@ -67,6 +69,7 @@ namespace FIFA.Test
             }
 
             return result;
+             
         }
 
         List<TestCase> create_test_cases(
@@ -83,7 +86,7 @@ namespace FIFA.Test
                 int index = -1;
                 if(attr_array[i] is TestAttribute)
                 {
-                    index = 1;
+                    index = i;
                 }
                 if(index < 0)
                 {

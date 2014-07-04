@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace FIFA.Test
 {
@@ -17,8 +18,12 @@ namespace FIFA.Test
         {
             if (domain == null)
             {
-                domain = AppDomain.CreateDomain("scan_domain");
                 var proxy_type = typeof(TestDiscovererProxy);
+                //setup is quite important cz dependent assemblies may not be found.
+                AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
+                domain = AppDomain.CreateDomain("scan_domain",null, setup);
+               
+                
                 //this step loads this assembly as well as its dependencies
                 Proxy = (TestDiscovererProxy)domain.CreateInstanceFromAndUnwrap(
                     proxy_type.Assembly.Location,

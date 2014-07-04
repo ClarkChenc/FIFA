@@ -18,6 +18,8 @@ namespace FIFA.Test
     {
         //We should remember the assemblies that we have instrumented, so that we can restore them later.
         List<string> instrumented_assemblies;
+
+        IEnumerable<TestCase> test_case_collection;
         /// <summary>
         /// Set or get test setting.
         /// </summary>
@@ -42,6 +44,7 @@ namespace FIFA.Test
         {
             instrumented_assemblies.Clear();
             Results.Clear();
+            this.test_case_collection = test_case_collection;
             if(Setting.IsDebugging)
             {
                 return;
@@ -126,7 +129,7 @@ namespace FIFA.Test
 
             return test_result;
         }
-        public TestResult Execute(TestCase test_case)
+        TestResult Execute(TestCase test_case)
         {
             if (Setting.IsDebugging)
             {
@@ -184,7 +187,7 @@ namespace FIFA.Test
 
         }
 
-        public List<TestResult> Execute(IEnumerable<TestCase> test_case_collection)
+        public List<TestResult> Execute()
         {
             //later, we might consider about execution orders among test cases.
             List<TestResult> test_result_list = new List<TestResult>();

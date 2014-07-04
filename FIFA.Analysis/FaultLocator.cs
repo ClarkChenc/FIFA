@@ -18,7 +18,39 @@ namespace FIFA.Analysis
 
         public List<BasicBlock> GetRankList(IEnumerable<TestResult> result_list)
         {
-            throw new NotImplementedException();
+            CoverageCollector collector = new CoverageCollector();
+            int f = 0;
+            int p = 0;
+            foreach(var result in result_list)
+            {
+                if(result.Outcome == TestOutcome.Passed)
+                {
+                    p += 1;
+                } else if(result.Outcome == TestOutcome.Failed)
+                {
+                    f += 1;
+                } else
+                {
+                    continue;
+                }
+                collector.MergeFromFile(result);
+            }
+
+
+
+            return GetRankList(collector.BasicBlockList, f, p);
+
+        }
+
+        public List<BasicBlock> GetRankList(List<BasicBlock> bb_list, double f, double p )
+        {
+            SuspCalculator calculator = new SuspCalculator();
+            calculator.Calc(bb_list, f, p, Setting.Method);
+            bb_list.Sort(new Comparison<BasicBlock>(
+                (x, y) => -x.susp.CompareTo(y.susp)
+                ));
+
+            return bb_list;
         }
     }
 }

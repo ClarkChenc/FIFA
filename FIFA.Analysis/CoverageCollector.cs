@@ -5,16 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.Coverage.Analysis;
 using FIFA.Framework.Test;
+using FIFA.Framework.Analysis;
 
-namespace FIFA.Framework.Analysis
+namespace FIFA.Analysis
 {
-    public class ProgramCov
+    public class CoverageCollector
     {
-        List<ModuleCov> module_cov_list;
+        bool need_update;
+        List<BasicBlock> basic_block_list;
+        List<ModuleCov> module_list;
 
-        public ProgramCov()
+        public List<BasicBlock> BasicBlockList
         {
-            module_cov_list = new List<ModuleCov>();
+            get
+            {
+                if(need_update)
+                {
+                    basic_block_list = new List<BasicBlock>();
+                    foreach(var module in module_list)
+                    {
+                        basic_block_list.AddRange(module.BasicBlockList);
+                    }
+                    need_update = false;
+                    
+                } 
+                return basic_block_list;
+                
+            }
+        }
+
+        public CoverageCollector()
+        {
+            module_list = new List<ModuleCov>();
+            need_update = false;
         }
 
         /// <summary>
@@ -22,15 +45,16 @@ namespace FIFA.Framework.Analysis
         /// </summary>
         /// <param name="file">coverage file</param>
         /// <param name="test_result">test result</param>
-        public void MergeFromFile(string file, TestResult test_result)
+        public void MergeFromFile(TestResult test_result)
         {
+            need_update = true;
             if ((test_result.Outcome != TestOutcome.Failed) &&
                 (test_result.Outcome != TestOutcome.Passed))
             {
                 return;
             }
             List<ModuleCov> module_cov_tmp_list = new List<ModuleCov>();
-            using (CoverageInfo info = CoverageInfo.CreateFromFile(file))
+            using (CoverageInfo info = CoverageInfo.CreateFromFile(test_result.CoverageFile))
             {
                 List<BlockLineRange> lines = new List<BlockLineRange>();
                 foreach (ICoverageModule module in info.Modules)
@@ -92,11 +116,19 @@ namespace FIFA.Framework.Analysis
             Merge(module_cov_tmp_list);
         }
 
+        public void MergeFromFile(IEnumerable<TestResult> test_result_list)
+        {
+            foreach(var test_result in test_result_list)
+            {
+                this.MergeFromFile(test_result);
+            }
+        }
+
         void Merge(List<ModuleCov> module_cov_tmp_list)
         {
             foreach(var m in module_cov_tmp_list)
             {
-                ModuleCov m_in_list = module_cov_list.Find(new Predicate<ModuleCov>(x => x.Name == m.Name));
+                ModuleCov m_in_list = module_list.Find(new Predicate<ModuleCov>(x => x.Name == m.Name));
                 if(m_in_list != null)
                 {
                     if (m_in_list.BasicBlockList.Count != m.BasicBlockList.Count)
@@ -110,7 +142,7 @@ namespace FIFA.Framework.Analysis
                     }
                 } else
                 {
-                    module_cov_list.Add(m);
+                    module_list.Add(m);
                 }
             }
         }

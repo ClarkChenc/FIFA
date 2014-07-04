@@ -16,5 +16,7 @@ namespace FIFA.Framework.Test
         public string SourceFile { set; get; }
         public int AttributeIndex { set; get; }
 
+        public int TestIndex { set; get; }
+
     }
 }

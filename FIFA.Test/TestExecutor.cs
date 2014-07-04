@@ -16,10 +16,16 @@ namespace FIFA.Test
 {
     public class TestExecutor
     {
+       
+        #region events
+        public event Action<TestResult> CoverageGenerated;
+        #endregion
         //We should remember the assemblies that we have instrumented, so that we can restore them later.
         List<string> instrumented_assemblies;
 
         IEnumerable<TestCase> test_case_collection;
+
+        public bool Cancelled { set; get; }
         /// <summary>
         /// Set or get test setting.
         /// </summary>
@@ -42,6 +48,7 @@ namespace FIFA.Test
         /// <param name="test_case_collection">All the tests that will be executed later.</param>
         public void Initialize(IEnumerable<TestCase> test_case_collection)
         {
+            Cancelled = false;
             instrumented_assemblies.Clear();
             Results.Clear();
             this.test_case_collection = test_case_collection;
@@ -52,7 +59,7 @@ namespace FIFA.Test
             //instrument
             TestDiscoverer discoverer = new TestDiscoverer();
             discoverer.LoadDomain();
-                IEnumerable<string> source_list = discoverer.Proxy.GetRelevantAssemblies(test_case_collection);
+            IEnumerable<string> source_list = discoverer.Proxy.GetRelevantAssemblies(test_case_collection);
             discoverer.UnloadDomain();
             Instrument(source_list);
         }
@@ -80,6 +87,7 @@ namespace FIFA.Test
                 if (p.ExitCode != 0)
                 {
                     instrumented_assemblies[i] = null;
+                    Console.WriteLine(p.StandardError.ReadToEnd());
                 }
                 p.Close();
             }
@@ -99,7 +107,7 @@ namespace FIFA.Test
             //assume test will pass
             TestResult test_result = new TestResult();
             test_result.Outcome = TestOutcome.Passed;
-
+            test_result.TestIndex = test_case.TestIndex;
             //find the test
             var module = ass.GetModule(test_case.ModuleName);
             var type = module.GetType(test_case.TypeFullName);
@@ -157,6 +165,11 @@ namespace FIFA.Test
             test_result.CorrespondingTestCase = test_case;
             //record the result
             Results.Add(test_result);
+            //broadcast the result
+            if (CoverageGenerated!=null)
+            {
+                CoverageGenerated(test_result);
+            }
             return test_result;
         }
         string GetCovFilePath(string dir, TestCase test_case)
@@ -193,6 +206,10 @@ namespace FIFA.Test
             List<TestResult> test_result_list = new List<TestResult>();
             foreach(var test_case in test_case_collection)
             {
+                if (Cancelled)
+                {
+                    break;
+                }
                 test_result_list.Add(Execute(test_case));
             }
 

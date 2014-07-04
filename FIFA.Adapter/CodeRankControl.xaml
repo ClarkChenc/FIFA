@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="FLTestAdapter.CodeRankControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="0,87,0,0">
+        <DataGrid x:Name="code_rank_grid" 
+                  HorizontalAlignment="Stretch"
+                  Margin="-2,-53,0,0" 
+                  VerticalAlignment="Stretch" 
+                  AutoGenerateColumns="False" 
+                  SelectionMode="Single" 
+                  SelectionUnit="FullRow" 
+                  IsReadOnly="True" 
+                  CanUserReorderColumns="False" 
+                  CanUserResizeRows="False" 
+                  CanUserSortColumns="False"
+                  AlternatingRowBackground="Gainsboro"  
+                  AlternationCount="2" MouseDoubleClick="code_rank_grid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Susp" 
+                    Width="Auto" 
+                    Binding="{Binding Susp}"
+                    >
+                </DataGridTextColumn>
+                <DataGridTextColumn 
+                    Header="Source" 
+                    Width="Auto" 
+                    Binding="{Binding Source}"
+                    >
+                </DataGridTextColumn>
+                <DataGridTextColumn 
+                    Header="Method" 
+                    Width="Auto" 
+                    Binding="{Binding Method}">
+                </DataGridTextColumn>
+                <DataGridTextColumn 
+                    Header="Class" 
+                    Width="Auto" 
+                    Binding="{Binding Class}">
+                </DataGridTextColumn>
+                <DataGridTextColumn 
+                    Header="Namespace" 
+                    Width="*" 
+                    Binding="{Binding Namespace}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="title_label" Content="FL Method: Unknown" Margin="84,-84,83,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+
+    </Grid>
+</UserControl>

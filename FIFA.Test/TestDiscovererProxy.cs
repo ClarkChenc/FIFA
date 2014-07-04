@@ -17,6 +17,7 @@ namespace FIFA.Test
         {
             List<TestCase> test_case_list = new List<TestCase>();
             var ass = Assembly.LoadFrom(ass_path);
+            int test_case_index = 0;
             foreach (var module in ass.GetModules())
             {
                 foreach (var type in module.GetTypes())
@@ -30,7 +31,7 @@ namespace FIFA.Test
                     
                     foreach (var method in type.GetMethods())
                     {
-                        List<TestCase> tmp_list = create_test_cases(ass_path, module, type, method);
+                        List<TestCase> tmp_list = create_test_cases(ass_path, module, type, method, ref test_case_index);
                         test_case_list.AddRange(tmp_list);
                     }
 
@@ -76,7 +77,8 @@ namespace FIFA.Test
             string source,
             Module module, 
             Type type,
-            MethodInfo method)
+            MethodInfo method,
+            ref int test_case_index)
         {
             //process TestAtrribute
             List<TestCase> test_case_list = new List<TestCase>();
@@ -98,6 +100,8 @@ namespace FIFA.Test
                 tc.TypeFullName = type.FullName;
                 tc.ModuleName = module.Name;
                 tc.SourceFile = source;
+                tc.TestIndex = test_case_index;
+                test_case_index++;
                 test_case_list.Add(tc);
             }
 

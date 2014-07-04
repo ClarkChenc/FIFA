@@ -8,5 +8,6 @@ namespace FIFA.Framework.Analysis
 {
     public class LocatorSetting
     {
+        public string Method { set; get; }
     }
 }

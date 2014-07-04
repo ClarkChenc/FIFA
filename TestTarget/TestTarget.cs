@@ -2,7 +2,7 @@
 using FIFA.Framework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTest
+namespace TestTarget
 {
     [TestContainer]
     public class TestTarget

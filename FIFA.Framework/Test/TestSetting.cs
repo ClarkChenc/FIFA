@@ -15,5 +15,7 @@ namespace FIFA.Framework.Test
         public string CoverageStoreDirectory { set; get; }
 
         public bool IsDebugging { set; get; }
+
+
     }
 }

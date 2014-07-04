@@ -20,5 +20,30 @@ namespace FIFA.Framework.Analysis
         public double susp;
         public uint passed_covered;
         public uint failed_covered;
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(namespace_name);
+            sb.Append(".");
+            sb.Append(class_name);
+            sb.Append(".");
+            sb.Append(method_name);
+            sb.Append(" ");
+            sb.Append(start_line);
+            sb.Append(":");
+            sb.Append(start_col);
+            sb.Append(",");
+            sb.Append(end_line);
+            sb.Append(":");
+            sb.Append(end_col);
+            sb.Append(" ef:");
+            sb.Append(failed_covered);
+            sb.Append(" ep:");
+            sb.Append(passed_covered);
+            sb.Append("  ");
+            sb.Append(susp);
+            return sb.ToString();
+        }
     }
 }

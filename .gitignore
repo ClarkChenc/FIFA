@@ -2,3 +2,5 @@
 *.obj
 *.dll
 *.pdb
+*\bin
+*\obj

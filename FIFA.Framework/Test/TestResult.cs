@@ -23,6 +23,6 @@ namespace FIFA.Framework.Test
 
         public string CoverageFile { set; get; }
 
-        public TestCase CorrespondingTestCase { set; get; }
+        public int TestIndex { set; get; }
     }
 }

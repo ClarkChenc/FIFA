@@ -21,6 +21,8 @@ namespace FIFA.Test
                 var proxy_type = typeof(TestDiscovererProxy);
                 //setup is quite important cz dependent assemblies may not be found.
                 AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
+                setup.ApplicationBase = Directory.GetParent(
+                    typeof(FIFA.Framework.Test.TestCase).Assembly.Location).FullName;
                 domain = AppDomain.CreateDomain("scan_domain",null, setup);
                
                 

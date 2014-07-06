@@ -149,10 +149,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ProjectTemplates\FIFAUnitTestTemplate.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -172,24 +168,24 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Assembly_test\AssemblyProxy\FIFA.csproj">
-      <Project>{4674ca1e-d15f-4d63-b289-1bd9fb89c42e}</Project>
-      <Name>FIFA</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CoverageHelper\CoverageHelper\FaultLocalizer.csproj">
-      <Project>{D8F25536-AE42-415E-947C-1EA02AA59F5C}</Project>
-      <Name>FaultLocalizer</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-    </ProjectReference>
-    <ProjectReference Include="..\..\FLTestAdapter\FLDebuggerHelper\FLDebuggerHelper.csproj">
-      <Project>{28da4dbb-ba4b-47df-b144-3f93af809540}</Project>
-      <Name>FLDebuggerHelper</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-    </ProjectReference>
-    <ProjectReference Include="..\FIFA.Adapter\FLTestAdapter.csproj">
+    <ProjectReference Include="..\FIFA.Adapter\FIFATestAdapter.csproj">
       <Project>{f0954ad1-f64b-4640-aac8-592fd2c85cc8}</Project>
-      <Name>FLTestAdapter</Name>
+      <Name>FIFATestAdapter</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
+    <ProjectReference Include="..\FIFA.Analysis\FIFA.Analysis.csproj">
+      <Project>{F0E02DC6-27E1-481F-B640-B86D953A686C}</Project>
+      <Name>FIFA.Analysis</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
+    <ProjectReference Include="..\FIFA.Framework\FIFA.Framework.csproj">
+      <Project>{568BCB2D-B3DC-4F45-A342-2E23BDEE9962}</Project>
+      <Name>FIFA.Framework</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
+    <ProjectReference Include="..\FIFA.Test\FIFA.Test.csproj">
+      <Project>{7BA3BE83-1A71-4209-8720-F51FEF9EF7D1}</Project>
+      <Name>FIFA.Test</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
   </ItemGroup>

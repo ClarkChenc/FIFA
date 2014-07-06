@@ -32,7 +32,7 @@ namespace Buaa.FLToolPackage
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(MyToolWindow))]
     [Guid(GuidList.guidFLToolPackagePkgString)]
-    [ProvideOptionPage(typeof(FLTestAdapter.FLSettings), "FIFA", "FIFA Test Adapter Settings", 115, 116, true)]
+    [ProvideOptionPage(typeof(FIFATestAdapter.FLSettings), "FIFA", "FIFA Test Adapter Settings", 115, 116, true)]
     public sealed class FLToolPackagePackage : Package
     {
         /// <summary>

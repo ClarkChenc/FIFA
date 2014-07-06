@@ -23,6 +23,6 @@ namespace FIFA.Framework.Test
 
         public string CoverageFile { set; get; }
 
-        public int TestIndex { set; get; }
+        public int Marker { set; get; }
     }
 }

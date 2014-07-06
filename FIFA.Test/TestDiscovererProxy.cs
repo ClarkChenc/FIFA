@@ -100,7 +100,6 @@ namespace FIFA.Test
                 tc.TypeFullName = type.FullName;
                 tc.ModuleName = module.Name;
                 tc.SourceFile = source;
-                tc.TestIndex = test_case_index;
                 test_case_index++;
                 test_case_list.Add(tc);
             }

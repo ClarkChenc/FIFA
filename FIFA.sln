@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTarget", "TestTarget\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FLToolPackage", "FIFA.Package\FLToolPackage.csproj", "{4B3FC11D-2843-4FB5-9026-16B1961F8FF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FLTestAdapter", "FIFA.Adapter\FLTestAdapter.csproj", "{F0954AD1-F64B-4640-AAC8-592FD2C85CC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIFATestAdapter", "FIFA.Adapter\FIFATestAdapter.csproj", "{F0954AD1-F64B-4640-AAC8-592FD2C85CC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

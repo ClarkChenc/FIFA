@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoverageHelper;
+using FIFA.Framework.Analysis;
 
-namespace FLTestAdapter
+namespace FIFATestAdapter
 {
     public class BasicBlockView
     {
@@ -15,9 +15,9 @@ namespace FLTestAdapter
         public string Class {set; get;}
         public string Namespace { set; get; }
 
-        public BasicBlockCov Cov { set; get; }
+        public BasicBlock Cov { set; get; }
 
-        public BasicBlockView(BasicBlockCov cov)
+        public BasicBlockView(BasicBlock cov)
         {
             this.Cov = cov;
             this.Source = (new System.IO.DirectoryInfo(cov.source_file_path)).Name + " line " + cov.start_line;

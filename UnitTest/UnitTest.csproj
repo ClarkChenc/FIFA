@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FIFA.Adapter\FIFATestAdapter.csproj">
+      <Project>{f0954ad1-f64b-4640-aac8-592fd2c85cc8}</Project>
+      <Name>FIFATestAdapter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FIFA.Analysis\FIFA.Analysis.csproj">
       <Project>{f0e02dc6-27e1-481f-b640-b86d953a686c}</Project>
       <Name>FIFA.Analysis</Name>

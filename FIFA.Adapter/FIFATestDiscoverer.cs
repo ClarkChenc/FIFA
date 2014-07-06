@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging;
 using System.Reflection;
 using System.IO;
 using FIFA.Test;
-namespace FLTestAdapter
+namespace FIFATestAdapter
 {
     [DefaultExecutorUri(Constant.ExecutorUriString)]
     public class FIFATestDiscoverer:ITestDiscoverer
@@ -38,7 +38,10 @@ namespace FLTestAdapter
                 foreach (var fifa_tc in fifa_tc_list)
                 {
                     TestCase tc = new TestCase(
-                        fifa_tc.TypeFullName + "#" + fifa_tc.MethodName + "#" +fifa_tc.AttributeIndex,
+                        fifa_tc.ModuleName + "#" 
+                        + fifa_tc.TypeFullName + "#" 
+                        + fifa_tc.MethodName + "#" 
+                        + fifa_tc.AttributeIndex,
                         FIFATestExecutor.ExecutorUri,
                         source);
                     tc.DisplayName = fifa_tc.MethodName + fifa_tc.AttributeIndex;

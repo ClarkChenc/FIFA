@@ -13,17 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
-using FLDebuggerHelper;
 using System.Net.Sockets;
 using System.Net;
-using CoverageHelper;
 using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using FIFA.Framework.Test;
+using FIFA.Framework.Analysis;
 
-namespace FLTestAdapter
+namespace FIFATestAdapter
 {
     /// <summary>
     /// Interaction logic for CodeRankControl.xaml
@@ -32,12 +32,12 @@ namespace FLTestAdapter
     {
         public List<BasicBlockView> Views { set; get; }
 
-        DataCollectionListener<BasicBlockCov> listener;
+        DataCollectionListener<BasicBlock> listener;
         private CodeRankControl()
         {
             InitializeComponent();
             Views = new List<BasicBlockView>();
-            listener = new DataCollectionListener<BasicBlockCov>(Constant.IPPort, UpdateCollection, UpdateMessage);
+            listener = new DataCollectionListener<BasicBlock>(Constant.IPPort, UpdateCollection, UpdateMessage);
             listener.Start();
             
         }
@@ -55,7 +55,7 @@ namespace FLTestAdapter
             }
         }
 
-        public void UpdateCollection(IEnumerable<BasicBlockCov> list)
+        public void UpdateCollection(IEnumerable<BasicBlock> list)
         {
             Views = new List<BasicBlockView>();
             foreach(var bb in list)
@@ -94,7 +94,7 @@ namespace FLTestAdapter
                 return;
             }
             int index =grid.SelectedIndex;
-            BasicBlockCov cov = Views[index].Cov;
+            BasicBlock cov = Views[index].Cov;
             DTE dte = Package.GetGlobalService(typeof(Microsoft.VisualStudio.Shell.Interop.SDTE)) as DTE;
             var window = dte.ItemOperations.OpenFile(cov.source_file_path);
             var tx = window.Document.Selection as EnvDTE.TextSelection;

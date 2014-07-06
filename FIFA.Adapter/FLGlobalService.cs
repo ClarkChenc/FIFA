@@ -7,9 +7,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using CoverageHelper;
+using FIFA.Framework.Analysis;
 
-namespace FLTestAdapter
+namespace FIFATestAdapter
 {
     public class FLGlobalService
     {
@@ -33,7 +33,7 @@ namespace FLTestAdapter
             client.Close();
         }
 
-        public static void SendRank(List<BasicBlockCov> list)
+        public static void SendRank(List<BasicBlock> list)
         {
             TcpClient client = new TcpClient();
             client.Connect(IPAddress.Loopback, Constant.IPPort);

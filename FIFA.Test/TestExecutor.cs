@@ -18,7 +18,9 @@ namespace FIFA.Test
     {
        
         #region events
-        public event Action<TestResult> CoverageGenerated;
+        public event Action<TestCase, TestResult> CoverageGenerated;
+        public event Action<TestCase> OneTestStarted;
+        public event Action<TestCase, TestResult> OneTestEnded;
         #endregion
         //We should remember the assemblies that we have instrumented, so that we can restore them later.
         List<string> instrumented_assemblies;
@@ -107,7 +109,6 @@ namespace FIFA.Test
             //assume test will pass
             TestResult test_result = new TestResult();
             test_result.Outcome = TestOutcome.Passed;
-            test_result.TestIndex = test_case.TestIndex;
             //find the test
             var module = ass.GetModule(test_case.ModuleName);
             var type = module.GetType(test_case.TypeFullName);
@@ -134,14 +135,24 @@ namespace FIFA.Test
                 test_result.StackTrace = null;
                 test_result.Outcome = TestOutcome.NotRun;
             }
-
+            
             return test_result;
         }
         TestResult Execute(TestCase test_case)
         {
+            if(OneTestStarted!= null)
+            {
+                OneTestStarted(test_case);
+            }
+            TestResult test_result;
             if (Setting.IsDebugging)
             {
-                return TestExecutor.ExecuteStatic(test_case);
+                test_result = TestExecutor.ExecuteStatic(test_case);
+                if (OneTestEnded != null)
+                {
+                    OneTestEnded(test_case, test_result);
+                }
+                return test_result;
             }
             //start monitor
             string cov_file = GetCovFilePath(Setting.CoverageStoreDirectory, test_case);
@@ -156,20 +167,24 @@ namespace FIFA.Test
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(p.StandardInput.BaseStream, test_case);
             p.WaitForExit();
-            TestResult test_result = (TestResult)formatter.Deserialize(p.StandardOutput.BaseStream);
+            test_result = (TestResult)formatter.Deserialize(p.StandardOutput.BaseStream);
             p.Close();
             //stop monitor
             StopMonitor();
-            //keep in track of the coverage file as well as the test case
+            //keep in track of the coverage file
             test_result.CoverageFile = cov_file + ".coverage";
-            test_result.CorrespondingTestCase = test_case;
             //record the result
             Results.Add(test_result);
             //broadcast the result
             if (CoverageGenerated!=null)
             {
-                CoverageGenerated(test_result);
+                CoverageGenerated(test_case, test_result);
             }
+            if (OneTestEnded != null)
+            {
+                OneTestEnded(test_case, test_result);
+            }
+            
             return test_result;
         }
         string GetCovFilePath(string dir, TestCase test_case)

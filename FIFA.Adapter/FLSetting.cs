@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 
-namespace FLTestAdapter
+namespace FIFATestAdapter
 {
     /// <summary>
     /// Chutzpah Adapter options page

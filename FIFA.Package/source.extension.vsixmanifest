@@ -14,10 +14,9 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-    <Asset Type="UnitTestExtension" d:Source="Project" d:ProjectName="FLTestAdapter" Path="|FLTestAdapter|" />
-    <Asset d:Source="Project" d:ProjectName="FLDebuggerHelper" Type="FLDebuggerHelper" Path="|FLDebuggerHelper|" />
-    <Asset d:Source="Project" d:ProjectName="FIFA" Type="FIFA" Path="|FIFA|" />
-    <Asset Type="FaultLocalizer" d:Source="Project" d:ProjectName="FaultLocalizer" Path="|FaultLocalizer|" />
-    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\FIFAUnitTestTemplate.zip" />
+    <Asset Type="UnitTestExtension" d:Source="Project" d:ProjectName="FIFATestAdapter" Path="|FIFATestAdapter|" />
+    <Asset Type="FIFA.Test" d:Source="Project" d:ProjectName="FIFA.Test" Path="|FIFA.Test|" />
+    <Asset Type="FIFA.Analysis" d:Source="Project" d:ProjectName="FIFA.Analysis" Path="|FIFA.Analysis|" />
+    <Asset Type="FIFA.Framwork" d:Source="Project" d:ProjectName="FIFA.Framework" Path="|FIFA.Framework|" />
   </Assets>
 </PackageManifest>

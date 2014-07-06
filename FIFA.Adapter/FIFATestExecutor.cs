@@ -35,7 +35,7 @@ namespace FIFATestAdapter
 
         FIFA.Test.TestExecutor executor;
         FIFATestExecutionHandler handler;
-        TestCase[] test_case_array;
+        
         public void Cancel()
         {
             if(executor != null)
@@ -79,18 +79,21 @@ namespace FIFATestAdapter
             System.IO.Directory.CreateDirectory(cov_dir);
             setting.CoverageStoreDirectory = cov_dir;
             //generate test cases
-            test_case_array = tests.ToArray();
+            TestCase[] test_case_array = tests.ToArray();
             FIFA.Framework.Test.TestCase[] fifa_test_case_array = new FIFA.Framework.Test.TestCase[test_case_array.Length];
             for (int i = 0; i < test_case_array.Length; i++)
             {
                 fifa_test_case_array[i] = ToFIFATestCase(test_case_array[i], i);
             }
             
-            FIFATestExecutionHandler handler = new FIFATestExecutionHandler(frameworkHandle);
+            FIFATestExecutionHandler handler = new FIFATestExecutionHandler(frameworkHandle, test_case_array);
             executor = new FIFA.Test.TestExecutor(setting);
             //events
             executor.OneTestStarted += handler.OneTestStart;
             executor.OneTestEnded += handler.OneTestEnded;
+            executor.TestStated += handler.TestStated;
+            executor.TestEnded += handler.TestEnded;
+            executor.OneCoverageGenerated += handler.OneCoverageGenerated;
             //start
             executor.Initialize(fifa_test_case_array);
             executor.Execute();

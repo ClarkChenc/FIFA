@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FIFA.Framework.Analysis
 {
+    [Serializable]
     public class BasicBlockFeature
     {
         public double ef;

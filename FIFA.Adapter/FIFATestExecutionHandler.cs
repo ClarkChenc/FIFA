@@ -11,6 +11,8 @@ using System.Reflection;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Data;
+using FIFA.Analysis;
+using System.Threading;
 
 namespace FIFATestAdapter
 {
@@ -19,9 +21,13 @@ namespace FIFATestAdapter
         TestResult current_result;
         TestCase[] test_case_array;
         IFrameworkHandle frameworkHandle;
-        public FIFATestExecutionHandler(IFrameworkHandle handle)
+        CoverageCollector cc;
+        int f;
+        int p;
+        public FIFATestExecutionHandler(IFrameworkHandle handle, TestCase[] array)
         {
             this.frameworkHandle = handle;
+            this.test_case_array = array;
         }
         public void OneTestStart(FIFA.Framework.Test.TestCase fifa_tc)
         {
@@ -52,6 +58,46 @@ namespace FIFATestAdapter
             current_result.Duration = current_result.EndTime - current_result.StartTime;
             frameworkHandle.RecordEnd(current_result.TestCase, current_result.Outcome);
             frameworkHandle.RecordResult(current_result);
+        }
+
+        public void OneCoverageGenerated(FIFA.Framework.Test.TestCase fifa_tc, FIFA.Framework.Test.TestResult fifa_tr)
+        {
+            if(fifa_tr.Outcome == FIFA.Framework.Test.TestOutcome.Passed)
+            {
+                p += 1;
+                ThreadPool.QueueUserWorkItem(CollectThread, fifa_tr);
+            } else if(fifa_tr.Outcome == FIFA.Framework.Test.TestOutcome.Failed)
+            {
+                f += 1;
+                ThreadPool.QueueUserWorkItem(CollectThread, fifa_tr);
+                
+            }
+        }
+
+        void CollectThread(object obj)
+        {
+            lock (this)
+            {
+                FIFA.Framework.Test.TestResult fifa_tr = obj as FIFA.Framework.Test.TestResult;
+                cc.MergeFromFile(fifa_tr);
+            }
+        }
+
+        
+        public void TestStated(IEnumerable<FIFA.Framework.Test.TestCase> fifa_tc_list)
+        {
+            cc = new CoverageCollector();
+            f = 0;
+            p = 0;
+        }
+
+        public void TestEnded(IEnumerable<FIFA.Framework.Test.TestCase> fifa_tc_list,
+                              IEnumerable<FIFA.Framework.Test.TestResult> fifa_tr_list)
+        {
+            FIFA.Framework.Analysis.LocatorSetting setting = new FIFA.Framework.Analysis.LocatorSetting();
+            setting.Method = "ochiai";
+            FaultLocator locator = new FaultLocator(setting);
+            FLGlobalService.SendRank(locator.GetRankList(cc.BasicBlockList, f, p));
         }
 
     }

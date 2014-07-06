@@ -18,7 +18,11 @@ namespace FIFA.Test
     {
        
         #region events
-        public event Action<TestCase, TestResult> CoverageGenerated;
+        public event Action<IEnumerable<TestCase>> TestStated;
+        public event Action<IEnumerable<TestCase>, List<TestResult>> TestEnded;
+        public event Action<List<string>> InstrumentStarted;
+        public event Action<List<string>> InstrumentEnded;
+        public event Action<TestCase, TestResult> OneCoverageGenerated;
         public event Action<TestCase> OneTestStarted;
         public event Action<TestCase, TestResult> OneTestEnded;
         #endregion
@@ -61,9 +65,17 @@ namespace FIFA.Test
             //instrument
             TestDiscoverer discoverer = new TestDiscoverer();
             discoverer.LoadDomain();
-            IEnumerable<string> source_list = discoverer.Proxy.GetRelevantAssemblies(test_case_collection);
+            List<string> source_list = discoverer.Proxy.GetRelevantAssemblies(test_case_collection);
             discoverer.UnloadDomain();
+            if(InstrumentStarted != null )
+            {
+                InstrumentStarted(source_list);
+            }
             Instrument(source_list);
+            if(InstrumentEnded!=null)
+            {
+                InstrumentEnded(source_list);
+            }
         }
 
         void Instrument(IEnumerable<string> ass_list)
@@ -138,7 +150,7 @@ namespace FIFA.Test
             
             return test_result;
         }
-        TestResult Execute(TestCase test_case)
+        void Execute(TestCase test_case)
         {
             if(OneTestStarted!= null)
             {
@@ -152,7 +164,8 @@ namespace FIFA.Test
                 {
                     OneTestEnded(test_case, test_result);
                 }
-                return test_result;
+                Results.Add(test_result);
+                return;
             }
             //start monitor
             string cov_file = GetCovFilePath(Setting.CoverageStoreDirectory, test_case);
@@ -176,16 +189,14 @@ namespace FIFA.Test
             //record the result
             Results.Add(test_result);
             //broadcast the result
-            if (CoverageGenerated!=null)
+            if (OneCoverageGenerated!=null)
             {
-                CoverageGenerated(test_case, test_result);
+                OneCoverageGenerated(test_case, test_result);
             }
             if (OneTestEnded != null)
             {
                 OneTestEnded(test_case, test_result);
             }
-            
-            return test_result;
         }
         string GetCovFilePath(string dir, TestCase test_case)
         {
@@ -215,9 +226,13 @@ namespace FIFA.Test
 
         }
 
-        public List<TestResult> Execute()
+        public void Execute()
         {
             //later, we might consider about execution orders among test cases.
+            if(TestStated != null)
+            {
+                TestStated(test_case_collection);
+            }
             List<TestResult> test_result_list = new List<TestResult>();
             foreach(var test_case in test_case_collection)
             {
@@ -225,10 +240,12 @@ namespace FIFA.Test
                 {
                     break;
                 }
-                test_result_list.Add(Execute(test_case));
+                Execute(test_case);
             }
-
-            return test_result_list;
+            if (TestEnded != null)
+            {
+                TestEnded(test_case_collection, test_result_list);
+            }
 
         }
 

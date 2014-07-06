@@ -37,7 +37,7 @@ namespace FIFA.Analysis
         public CoverageCollector()
         {
             module_list = new List<ModuleCov>();
-            need_update = false;
+            need_update = true;
         }
 
         /// <summary>

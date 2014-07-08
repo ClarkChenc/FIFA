@@ -5,10 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Margin="0,87,0,0">
+    <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="67*"/>
+        </Grid.ColumnDefinitions>
         <DataGrid x:Name="code_rank_grid" 
                   HorizontalAlignment="Stretch"
-                  Margin="-2,-53,0,0" 
+                  Margin="0,0,0,31" 
                   VerticalAlignment="Stretch" 
                   AutoGenerateColumns="False" 
                   SelectionMode="Single" 
@@ -18,7 +22,7 @@
                   CanUserResizeRows="False" 
                   CanUserSortColumns="False"
                   AlternatingRowBackground="Gainsboro"  
-                  AlternationCount="2" MouseDoubleClick="code_rank_grid_MouseDoubleClick">
+                  AlternationCount="2" MouseDoubleClick="code_rank_grid_MouseDoubleClick" Grid.ColumnSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Susp" 
@@ -34,22 +38,17 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn 
                     Header="Method" 
-                    Width="Auto" 
+                    Width="60" 
                     Binding="{Binding Method}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
                     Header="Class" 
-                    Width="Auto" 
+                    Width="60" 
                     Binding="{Binding Class}">
-                </DataGridTextColumn>
-                <DataGridTextColumn 
-                    Header="Namespace" 
-                    Width="*" 
-                    Binding="{Binding Namespace}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="title_label" Content="FL Method: Unknown" Margin="84,-84,83,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+        <Label x:Name="msg_label" Content="Ready" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
 
     </Grid>
 </UserControl>

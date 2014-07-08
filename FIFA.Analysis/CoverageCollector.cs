@@ -24,7 +24,21 @@ namespace FIFA.Analysis
                     basic_block_list = new List<BasicBlock>();
                     foreach(var module in module_list)
                     {
-                        basic_block_list.AddRange(module.BasicBlockList);
+                        uint current_block_index = uint.MaxValue;
+                        foreach(var bb in module.BasicBlockList)
+                        {
+                            if(bb.failed_covered != 0 || bb.passed_covered != 0)
+                            {
+                                if (current_block_index != bb.block_index)
+                                {
+                                    basic_block_list.Add(bb);
+                                    current_block_index = bb.block_index;
+                                } else
+                                {
+                                    basic_block_list[basic_block_list.Count - 1].Merge(bb);
+                                }
+                            }
+                        }
                     }
                     need_update = false;
                     
@@ -94,6 +108,7 @@ namespace FIFA.Analysis
                                 bb.end_col = line.EndColumn;
                                 bb.start_line = line.StartLine;
                                 bb.end_line = line.EndLine;
+                                bb.block_index = line.BlockIndex;
                                 if (test_result.Outcome == TestOutcome.Passed)
                                 {
                                     bb.passed_covered = coverageBuffer[line.BlockIndex] > 0 ? (uint)1 : (uint)0;

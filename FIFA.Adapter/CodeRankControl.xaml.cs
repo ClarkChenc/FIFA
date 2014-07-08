@@ -78,7 +78,7 @@ namespace FIFATestAdapter
         {
             this.Dispatcher.Invoke(() =>
             {
-                title_label.Content = msg;
+                msg_label.Content = msg;
             });
         }
 

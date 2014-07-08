@@ -18,6 +18,7 @@ namespace FIFA.Framework.Analysis
         public uint end_line;
         public uint start_col;
         public uint end_col;
+        public uint block_index;
         public double susp;
         public uint passed_covered;
         public uint failed_covered;
@@ -45,6 +46,39 @@ namespace FIFA.Framework.Analysis
             sb.Append("  ");
             sb.Append(susp);
             return sb.ToString();
+        }
+
+        public void Merge(BasicBlock bb)
+        {
+            if(bb.block_index != this.block_index)
+            {
+                throw new Exception("Cannot merge with a basic block which has a different block index.");
+            }
+            //update start
+            if(this.start_line > bb.start_line)
+            {
+                this.start_line = bb.start_line;
+                this.start_col = bb.start_col;
+            } else if(this.start_line == bb.start_line)
+            {
+                if(this.start_col > bb.start_col)
+                {
+                    this.start_col = bb.start_col;
+                }
+            }
+
+            //update end
+            if(this.end_line < bb.end_line)
+            {
+                this.end_line = bb.end_line;
+                this.end_col = bb.end_col;
+            } else if( this.end_line == bb.end_line)
+            {
+                if(this.end_col < bb.end_col)
+                {
+                    this.end_col = bb.end_col;
+                }
+            }
         }
     }
 }

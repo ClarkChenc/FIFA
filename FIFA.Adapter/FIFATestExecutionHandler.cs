@@ -89,6 +89,7 @@ namespace FIFATestAdapter
             cc = new CoverageCollector();
             f = 0;
             p = 0;
+            FLGlobalService.SendMessage("Test Stated.");
         }
 
         public void TestEnded(IEnumerable<FIFA.Framework.Test.TestCase> fifa_tc_list,
@@ -96,8 +97,17 @@ namespace FIFATestAdapter
         {
             FIFA.Framework.Analysis.LocatorSetting setting = new FIFA.Framework.Analysis.LocatorSetting();
             setting.Method = "ochiai";
+            frameworkHandle.SendMessage(TestMessageLevel.Informational, "FL Method: ochiai.");
             FaultLocator locator = new FaultLocator(setting);
-            FLGlobalService.SendRank(locator.GetRankList(cc.BasicBlockList, f, p));
+            FLGlobalService.SendMessage("Test Ended. Calculating suspiciousness...");
+            List<FIFA.Framework.Analysis.BasicBlock> list;
+            lock (this)
+            {
+                list = locator.GetRankList(cc.BasicBlockList, f, p);
+            }
+            FLGlobalService.SendMessage("Delivering results...");
+            FLGlobalService.SendRank(list);
+            FLGlobalService.SendMessage("Ready");
         }
 
     }

@@ -36,7 +36,14 @@ namespace FIFATestAdapter
         public static void SendRank(List<BasicBlock> list)
         {
             TcpClient client = new TcpClient();
-            client.Connect(IPAddress.Loopback, Constant.IPPort);
+            try
+            {
+                client.Connect(IPAddress.Loopback, Constant.IPPort);
+            }
+            catch (Exception e)
+            {
+                return;
+            }
             NetworkStream ns = client.GetStream();
             BinaryFormatter bformatter = new BinaryFormatter();
 

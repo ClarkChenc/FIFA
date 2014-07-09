@@ -8,6 +8,11 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using FIFATestAdapter;
+using Microsoft.VisualStudio.ComponentModelHost;
+using System.ComponentModel;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 
 namespace Buaa.FLToolPackage
 {
@@ -32,9 +37,10 @@ namespace Buaa.FLToolPackage
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(MyToolWindow))]
     [Guid(GuidList.guidFLToolPackagePkgString)]
-    [ProvideOptionPage(typeof(FIFATestAdapter.FLSettings), "FIFA", "FIFA Test Adapter Settings", 115, 116, true)]
+    [ProvideOptionPage(typeof(FIFATestAdapter.FIFASettingUI), "FIFA", "FIFA Test Adapter Settings", 115, 116, true)]
     public sealed class FLToolPackagePackage : Package
     {
+        public FIFASettingUI Settings { get; private set; }
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -92,7 +98,21 @@ namespace Buaa.FLToolPackage
                 CommandID toolwndCommandID = new CommandID(GuidList.guidFLToolPackageCmdSet, (int)PkgCmdIDList.cmdidMyTool);
                 MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
                 mcs.AddCommand( menuToolWin );
+
             }
+            Settings = GetDialogPage(typeof(FIFASettingUI)) as FIFASettingUI;
+            Settings.PropertyChanged += SettingsPropertyChanged;
+            FIFASettingMgr mgr = new FIFASettingMgr(Settings);
+            mgr.Persistence();
+        }
+       
+
+        private void SettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var setting_ui = GetDialogPage(typeof(FIFASettingUI)) as FIFASettingUI;
+            FIFASettingMgr mgr = new FIFASettingMgr(setting_ui);
+            mgr.Persistence();
+
         }
         #endregion
 

@@ -13,6 +13,9 @@ using System.Windows;
 using System.Windows.Data;
 using FIFA.Analysis;
 using System.Threading;
+using FIFA.Framework.Analysis;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace FIFATestAdapter
 {
@@ -22,14 +25,16 @@ namespace FIFATestAdapter
         TestCase[] test_case_array;
         IFrameworkHandle frameworkHandle;
         CoverageCollector cc;
+        IRunContext context;
         int f;
         int p;
-        public FIFATestExecutionHandler(IFrameworkHandle handle, TestCase[] array)
+        public FIFATestExecutionHandler(IRunContext context, IFrameworkHandle handle, TestCase[] array)
         {
             this.frameworkHandle = handle;
             this.test_case_array = array;
+            this.context = context;
         }
-        public void OneTestStart(FIFA.Framework.Test.TestCase fifa_tc)
+        public void OneTestStarted(FIFA.Framework.Test.TestCase fifa_tc)
         {
             int index = fifa_tc.Marker;
             current_result = new TestResult(test_case_array[index]);
@@ -95,10 +100,9 @@ namespace FIFATestAdapter
         public void TestEnded(IEnumerable<FIFA.Framework.Test.TestCase> fifa_tc_list,
                               IEnumerable<FIFA.Framework.Test.TestResult> fifa_tr_list)
         {
-            FIFA.Framework.Analysis.LocatorSetting setting = new FIFA.Framework.Analysis.LocatorSetting();
-            setting.Method = "ochiai";
-            frameworkHandle.SendMessage(TestMessageLevel.Informational, "FL Method: ochiai.");
-            FaultLocator locator = new FaultLocator(setting);
+            var setting_mgr = FIFASettingMgr.LoadFromFile();
+            frameworkHandle.SendMessage(TestMessageLevel.Informational, "FL Method: "+setting_mgr.LctSetting.Method.ToString());
+            FaultLocator locator = new FaultLocator(setting_mgr.LctSetting);
             FLGlobalService.SendMessage("Test Ended. Calculating suspiciousness...");
             List<FIFA.Framework.Analysis.BasicBlock> list;
             lock (this)
@@ -110,5 +114,22 @@ namespace FIFATestAdapter
             FLGlobalService.SendMessage("Ready");
         }
 
+
+
+        internal void InstrumentStarted(List<string> sources)
+        {
+            FLGlobalService.SendMessage("Instrumenting...");
+            foreach(var source in sources)
+            {
+                frameworkHandle.SendMessage(TestMessageLevel.Informational, "instrumenting " + source);
+            }
+        }
+
+        internal void InstrumentEnded(List<string> sources)
+        {
+            FLGlobalService.SendMessage("Instrument Finished.");
+            frameworkHandle.SendMessage(TestMessageLevel.Informational, "Instrument Finished.");
+            
+        }
     }
 }

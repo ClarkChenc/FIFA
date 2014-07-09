@@ -72,7 +72,7 @@ namespace UnitTest
             executor.Initialize(test_case_list);
             executor.Execute();
             LocatorSetting locator_setting = new LocatorSetting();
-            locator_setting.Method = "ochiai";
+            locator_setting.Method = FLMethod.ochiai;
             FaultLocator locator = new FaultLocator(locator_setting);
             List<BasicBlock> bb_list = locator.GetRankList(executor.Results);
             foreach(var bb in bb_list)

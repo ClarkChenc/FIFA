@@ -71,10 +71,14 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestWindow.Interfaces">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -93,13 +97,15 @@
     </Compile>
     <Compile Include="Constant.cs" />
     <Compile Include="DataCollectionListener.cs" />
+    <Compile Include="FIFASettingMgr.cs" />
     <Compile Include="FIFATestDiscoverer.cs" />
     <Compile Include="FIFATestExecutionHandler.cs" />
     <Compile Include="FIFATestExecutor.cs" />
     <Compile Include="FLGlobalService.cs" />
-    <Compile Include="FLSetting.cs">
+    <Compile Include="FIFASettingUI.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="IFIFASettingMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

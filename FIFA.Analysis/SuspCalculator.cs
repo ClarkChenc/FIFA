@@ -16,13 +16,13 @@ namespace FIFA.Analysis
             
         }
 
-        public double Calc(BasicBlockFeature feature, string method)
+        public double Calc(BasicBlockFeature feature, FLMethod method)
         {
             switch(method)
             {
-                case "op1":
+                case FLMethod.op1:
                     return op1(feature);
-                case "ochiai":
+                case FLMethod.ochiai:
                     return ochiai(feature);
                 default:
                     throw new Exception("method named " + method + " not heard.");
@@ -30,12 +30,12 @@ namespace FIFA.Analysis
 
         }
 
-        public double Calc(BasicBlock bb, double f, double p, string method)
+        public double Calc(BasicBlock bb, double f, double p, FLMethod method)
         {
             return Calc(new BasicBlockFeature(bb, f, p), method);
         }
 
-        public void Calc(IEnumerable<BasicBlock> bb_list,double f, double p, string method)
+        public void Calc(IEnumerable<BasicBlock> bb_list, double f, double p, FLMethod method)
         {
             foreach(var bb in bb_list)
             {

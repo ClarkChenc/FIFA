@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
+using FIFA.Framework.Analysis;
 
 namespace FIFATestAdapter
 {
@@ -11,19 +12,19 @@ namespace FIFATestAdapter
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [Guid("6C95E241-763D-4887-9F05-A6B95F36D031")]
-    public class FLSettings : DialogPage, INotifyPropertyChanged
+    public class FIFASettingUI : DialogPage, INotifyPropertyChanged
     {
-        public FLSettings()
+        public FIFASettingUI()
         {
             enable_learning = true;
             enable_autoselection = true;
-            method_name = "Ochiai";
+            method = FLMethod.ochiai;
         }
 
 
         private bool enable_learning;
         private bool enable_autoselection;
-        private string method_name;
+        private FLMethod method;
 
 
         [Browsable(true)]
@@ -56,12 +57,12 @@ namespace FIFATestAdapter
         [Browsable(true)]
         [DisplayName("Method Name")]
         [Description("Instruct FIFA to use a specific method.")]
-        public string MethodName
+        public FLMethod Method
         {
-            get { return method_name; }
+            get { return method; }
             set
             {
-                method_name = value;
+                method = value;
                 OnPropertyChanged("MethodName");
             }
         }
@@ -70,7 +71,7 @@ namespace FIFATestAdapter
         {
             enable_learning = true;
             enable_autoselection = true;
-            method_name = "Ochiai";
+            method = FLMethod.ochiai;
             base.ResetSettings();
         }
 

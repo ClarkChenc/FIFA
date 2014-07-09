@@ -6,10 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Margin="0,0,0,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="83*"/>
-            <ColumnDefinition Width="67*"/>
-        </Grid.ColumnDefinitions>
         <DataGrid x:Name="code_rank_grid" 
                   HorizontalAlignment="Stretch"
                   Margin="0,0,0,31" 

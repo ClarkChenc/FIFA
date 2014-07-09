@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace FIFA.Framework.Analysis
 {
+    public enum FLMethod
+    {
+        ochiai,
+        op1,
+    }
+    [Serializable]
     public class LocatorSetting
     {
-        public string Method { set; get; }
+        public FLMethod Method { set; get; }
     }
 }

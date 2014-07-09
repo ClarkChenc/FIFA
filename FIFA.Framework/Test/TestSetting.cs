@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FIFA.Framework.Test
 {
+    [Serializable]
     public class TestSetting
     {
         public string InstrumentTool { set; get; }

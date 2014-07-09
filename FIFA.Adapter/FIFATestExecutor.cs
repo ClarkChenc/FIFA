@@ -67,9 +67,10 @@ namespace FIFATestAdapter
         
         public void RunTests(IEnumerable<TestCase> tests, IRunContext runContext, IFrameworkHandle frameworkHandle)
         {
+            
             FLGlobalService.SendMessage("clear");
             //setting
-            FIFA.Framework.Test.TestSetting setting = new FIFA.Framework.Test.TestSetting();
+            FIFA.Framework.Test.TestSetting setting = FIFASettingMgr.LoadFromFile().TstSetting;
             string file_path = Environment.GetEnvironmentVariable("PROGRAMFILES");
             setting.InstrumentTool = file_path + @"\Microsoft Visual Studio 12.0\Team Tools\Performance Tools\vsinstr.exe";
             setting.PerformanceCmder = file_path + @"\Microsoft Visual Studio 12.0\Team Tools\Performance Tools\VSPerfCmd.exe";
@@ -85,11 +86,13 @@ namespace FIFATestAdapter
             {
                 fifa_test_case_array[i] = ToFIFATestCase(test_case_array[i], i);
             }
-            
-            FIFATestExecutionHandler handler = new FIFATestExecutionHandler(frameworkHandle, test_case_array);
+
+            FIFATestExecutionHandler handler = new FIFATestExecutionHandler(runContext, frameworkHandle, test_case_array);
             executor = new FIFA.Test.TestExecutor(setting);
             //events
-            executor.OneTestStarted += handler.OneTestStart;
+            executor.InstrumentStarted += handler.InstrumentStarted;
+            executor.InstrumentEnded += handler.InstrumentEnded;
+            executor.OneTestStarted += handler.OneTestStarted;
             executor.OneTestEnded += handler.OneTestEnded;
             executor.TestStated += handler.TestStated;
             executor.TestEnded += handler.TestEnded;
